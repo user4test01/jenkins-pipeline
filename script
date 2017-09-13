@@ -1,0 +1,10 @@
+node {
+    stage ('Preparation') {
+        git 'https://github.com/user4test01/bottle-based-app.git'
+    }
+    stage ('Deploy') {
+        sh 'ssh bottle@ec2-13-59-211-62.us-east-2.compute.amazonaws.com rm -rf /var/www/bottle/bottle-based-app'
+        sh 'scp -r /var/lib/jenkins/workspace/bottle-based-app bottle@ec2-13-59-211-62.us-east-2.compute.amazonaws.com:/var/www/bottle'
+        sh 'ssh bottle@ec2-13-59-211-62.us-east-2.compute.amazonaws.com touch /tmp/uwsgi.reload'
+    }
+}
